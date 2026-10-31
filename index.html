@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#171717">
+  <title>Dram Studio Photo Select</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#"><span class="brand-mark">DS</span><span>DS <b>PHOTO SELECT</b><small>Photography proofing studio</small></span></a>
+    <nav>
+      <button class="nav-btn active" data-view="customer">Customer gallery</button>
+      <button class="nav-btn" data-view="admin">Admin demo</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="customerView" class="view">
+      <div id="loginPanel" class="login-wrap">
+        <div class="login-card">
+          <div class="eyebrow">PRIVATE CLIENT GALLERY</div>
+          <h1>Your moments.<br><em>Your selection.</em></h1>
+          <p>Enter the gallery PIN shared by your photographer to view and shortlist your photographs.</p>
+          <form id="pinForm">
+            <label for="pinInput">Gallery PIN</label>
+            <input id="pinInput" inputmode="numeric" autocomplete="one-time-code" maxlength="12" placeholder="Try 825491" required>
+            <button class="primary full" type="submit">Open gallery <span>→</span></button>
+            <div id="pinError" class="error" role="alert"></div>
+          </form>
+          <div class="demo-note">Demo PIN: <strong>825491</strong></div>
+        </div>
+        <div class="login-art"><div class="art-caption">A LITTLE PREVIEW OF YOUR BIG DAY</div><div class="art-frame"><div class="art-circle"></div><span>MEMORIES<br>TO KEEP</span></div></div>
+      </div>
+
+      <div id="galleryPanel" hidden>
+        <div class="gallery-heading">
+          <div><div class="eyebrow">YOUR PRIVATE GALLERY</div><h1 id="eventTitle">Arun & Priya — Wedding</h1><p id="eventSubtitle">25 October 2026 · Select your favourite photographs</p></div>
+          <button id="logoutBtn" class="outline">Exit gallery</button>
+        </div>
+        <div class="selection-toolbar">
+          <div><strong id="selectedCount">0 selected</strong><span id="totalCount"> · 0 photographs</span></div>
+          <div class="toolbar-actions">
+            <select id="filterSelect" aria-label="Filter photos"><option value="all">All photographs</option><option value="selected">Selected only</option><option value="unselected">Not selected</option></select>
+            <button id="reviewBtn" class="outline">Review selection</button>
+            <button id="confirmBtn" class="primary">Confirm selection</button>
+          </div>
+        </div>
+        <div id="photoGrid" class="photo-grid"></div>
+        <div id="emptyState" class="empty-state" hidden>No photographs found. Upload images from the Admin demo tab.</div>
+        <p class="privacy-hint">Preview images are watermarked and reduced in size. Please ask the studio for final-resolution photographs.</p>
+      </div>
+    </section>
+
+    <section id="adminView" class="view" hidden>
+      <div class="gallery-heading">
+        <div><div class="eyebrow">STUDIO CONTROL PANEL</div><h1>Admin workspace</h1><p>Manage a demo event and review customer selections.</p></div>
+        <span class="status-pill">LOCAL DEMO</span>
+      </div>
+      <div class="stats">
+        <div class="stat"><span>EVENT</span><strong>Arun & Priya Wedding</strong><small>EVT001</small></div>
+        <div class="stat"><span>PHOTOGRAPHS</span><strong id="adminTotal">0</strong><small>In this browser</small></div>
+        <div class="stat"><span>SELECTED</span><strong id="adminSelected">0</strong><small>Customer favourites</small></div>
+      </div>
+      <div class="admin-grid">
+        <article class="panel">
+          <div class="panel-head"><div><div class="eyebrow">01 / ADD PHOTOGRAPHS</div><h2>Upload previews</h2></div></div>
+          <p class="muted">Choose JPG, PNG or WebP files. The browser creates a small preview and applies a visible MS Photography watermark.</p>
+          <label class="upload-zone" for="photoUpload"><span class="upload-icon">↑</span><strong>Choose photographs</strong><small>Multiple files supported · processed in this browser</small><input id="photoUpload" type="file" accept="image/*" multiple></label>
+          <div class="progress-wrap" id="progressWrap" hidden><div class="progress-track"><div id="progressBar"></div></div><small id="progressText">Preparing…</small></div>
+          <button id="clearPhotosBtn" class="danger-quiet">Clear demo photographs</button>
+        </article>
+        <article class="panel">
+          <div class="eyebrow">02 / CUSTOMER ACCESS</div><h2>Gallery details</h2>
+          <div class="detail-row"><span>Gallery link</span><strong>Same website address</strong></div>
+          <div class="detail-row"><span>Demo PIN</span><strong class="pin-code">825491</strong></div>
+          <div class="detail-row"><span>Event ID</span><strong>EVT001</strong></div>
+          <div class="detail-row"><span>Selection status</span><strong id="adminStatus">In progress</strong></div>
+          <p class="notice">This is a front-end demo. Uploads and selections are stored only in this browser. Remote customers cannot see them until Cloudflare R2, Workers and D1 are connected.</p>
+        </article>
+      </div>
+      <article class="panel selection-panel">
+        <div class="panel-head"><div><div class="eyebrow">03 / CUSTOMER SHORTLIST</div><h2>Selected photographs</h2></div><div class="toolbar-actions"><button id="exportCsvBtn" class="outline">Export CSV</button><button id="exportNamesBtn" class="primary">Copy filenames</button></div></div>
+        <div id="adminSelectionList" class="selected-list">No selections yet.</div>
+      </article>
+    </section>
+  </main>
+
+  <div id="lightbox" class="lightbox" hidden>
+    <button id="closeLightbox" class="lightbox-close" aria-label="Close">×</button>
+    <button id="prevPhoto" class="lightbox-arrow" aria-label="Previous">‹</button>
+    <div class="lightbox-content"><img id="lightboxImage" alt="Photo preview"><div id="lightboxCaption"></div><button id="lightboxSelect" class="primary">♡ Select photo</button></div>
+    <button id="nextPhoto" class="lightbox-arrow" aria-label="Next">›</button>
+  </div>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="js/app.js"></script>
+</body>
+</html>
